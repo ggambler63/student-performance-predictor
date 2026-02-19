@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Predictor</title>
+    <link rel="stylesheet" href="style.css"/>
+    <style>
+        /* Back button styled to match page elements */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary-color, #4361ee), var(--secondary-color, #3f37c9));
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            color: white;
+            padding: 0;
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, var(--secondary-color, #3f37c9), var(--primary-color, #4361ee));
+        }
+        
+        .back-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .back-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: white;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        
+        /* Adjust for mobile */
+        @media (max-width: 768px) {
+            .back-btn {
+                top: 10px;
+                left: 10px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .back-btn svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div id="loginSection" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f0f2f5;">
+        <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; width: 300px;">
+            <h2 style="margin-bottom: 20px; color: #333;">🔐 Admin Login</h2>
+            <input type="email" id="loginEmail" placeholder="Email ID" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            <input type="password" id="loginPass" placeholder="Password" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px;">
+            <button id="loginBtn" style="width: 100%; padding: 10px; background: #4361ee; color: white; border: none; border-radius: 5px; cursor: pointer;">Login</button>
+        </div>
+    </div>
+
+    <div id="dashboardSection" style="display: none;">
+    
+        <header style="background-color: #4361ee; color: white; padding: 15px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <div class="container" style="display: grid; grid-template-columns: 50px 1fr 100px; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+                
+              <button id="backBtn" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; border-radius: 8px; cursor: pointer; font-size: 24px; line-height: 1; padding: 0; display: flex; align-items: center; justify-content: center;">
+    &#8592;
+</button>
+        
+                <div style="text-align: center;">
+                    <h1 style="margin: 0; font-size: 18px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Student Performance Predictor</h1>
+                </div>
+                
+                <div style="text-align: right;">
+                    <button id="logoutBtn" style="background-color: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                        Logout 🚪
+                    </button>
+                </div>
+        
+            </div>
+        </header>
+        
+            <div class="container">
+                ```
+        
+        <div class="container">
+            <div class="ranking-info">
+                <h3>Performance Ranking Criteria</h3>
+                <div class="ranking-criteria">
+                    <div class="criteria-item criteria-high">High Ranking: Average ≥ 75%</div>
+                    <div class="criteria-item criteria-average">Average Ranking: 45% ≤ Average < 75%</div>
+                    <div class="criteria-item criteria-low">Low Ranking: Average < 45%</div>
+                </div>
+            </div>
+            
+            <div class="main-content">
+                <section class="input-section">
+                    <h2>Add Student Data</h2>
+                    <form id="studentForm">
+                        <div class="form-group">
+                            <label for="studentName">Student Name</label>
+                            <input type="text" id="studentName" placeholder="Enter student name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mathMarks">Mathematics Marks</label>
+                            <input type="number" id="mathMarks" min="0" max="100" placeholder="Enter marks (0-100)" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="DSMarks">DS Marks</label>
+                            <input type="number" id="DSMarks" min="0" max="100" placeholder="Enter marks (0-100)" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="CSSMarks">CSS Marks</label>
+                            <input type="number" id="CSSMarks" min="0" max="100" placeholder="Enter marks (0-100)" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="COAMarks">COA Marks</label>
+                            <input type="number" id="COAMarks" min="0" max="100" placeholder="Enter marks (0-100)" required>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button type="submit" id="submitBtn" style="flex: 1;">Add Student & Predict</button>
+                            <button type="button" id="cancelBtn" style="display: none; background-color: #95a5a6; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer;">Cancel</button>
+                        </div>
+                    </form>
+                    
+                    <div class="form-group" style="margin-top: 20px; padding-top: 20px; border-top: 1px dashed #ccc;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">📂 Bulk Upload (CSV)</label>
+                        <input type="file" id="csvFileInput" accept=".csv" style="width: 100%; margin-bottom: 10px;">
+                        <button type="button" id="bulkUploadBtn" style="background-color: #8e44ad; width: 100%; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Upload & Analyze CSV</button>
+                    </div>
+                </section>
+                
+                <section class="results-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h2>Performance Results</h2>
+                        <button id="downloadBtn" style="background-color: #27ae60; color: white; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; font-size: 13px;">
+                            📄 PDF Report
+                        </button>
+                    </div>
+
+                    <div class="student-list" id="studentList">
+                        </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </section>
+            </div>
+            
+            <div class="stats-section">
+                <div class="stat-card">
+                    <h3>Total Students</h3>
+                    <div class="stat-value total-stat" id="totalStudents">0</div>
+                    <p>Number of students analyzed</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>High Ranking</h3>
+                    <div class="stat-value high-stat" id="highRanking">0</div>
+                    <p>Students with average ≥ 75%</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Average Ranking</h3>
+                    <div class="stat-value average-stat" id="averageRanking">0</div>
+                    <p>Students with 45% ≤ average < 75%</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Low Ranking</h3>
+                    <div class="stat-value low-stat" id="lowRanking">0</div>
+                    <p>Students with average < 45%</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="container">
+                <p>Student Performance Predictor &copy; 2023 | Analyze and predict student performance based on academic marks</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Solution | Web Design Team</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary: #6c63ff;
+            --secondary: #4a44c9;
+            --dark: #2a2a3c;
+            --light: #f5f5f7;
+            --accent: #ff6584;
+            --transition: all 0.3s ease;
+        }
+
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        h1, h2, h3, h4 {
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+
+       
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.8s;
+        }
+
+        .hero .btn {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 1.1s;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="%236c63ff" opacity="0.1"/></svg>') no-repeat;
+            background-size: cover;
+        }
+
+        /* About Section */
+        .about {
+            background-color: white;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .profile-placeholder {
+            width: 100%;
+            height: 400px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        /* Skills Section */
+        .skills {
+            background-color: var(--light);
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-category {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-category h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            width: 60%;
+        }
+
+        .skill-level {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 4px;
+            transition: width 1.5s ease;
+        }
+
+        /* Team Section */
+        .team {
+            background-color: white;
+        }
+
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .team-member {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .team-member.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .member-photo {
+            height: 250px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .photo-placeholder {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 2.5rem;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Different colors for each team member */
+        .team-member:nth-child(1) .photo-placeholder {
+            background: linear-gradient(135deg, #6c63ff, #4a44c9);
+        }
+
+        .team-member:nth-child(2) .photo-placeholder {
+            background: linear-gradient(135deg, #ff6584, #e04f70);
+        }
+
+        .team-member:nth-child(3) .photo-placeholder {
+            background: linear-gradient(135deg, #36d1dc, #5b86e5);
+        }
+
+        .team-member:nth-child(4) .photo-placeholder {
+            background: linear-gradient(135deg, #ff7b25, #e5691a);
+        }
+
+        .photo-placeholder:hover {
+            transform: scale(1.05);
+        }
+
+        .member-info {
+            padding: 25px;
+        }
+
+        .member-info h3 {
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .member-role {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .member-skills {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            background-color: rgba(108, 99, 255, 0.1);
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            background-color: var(--light);
+        }
+
+        .portfolio-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            margin: 5px;
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .portfolio-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .portfolio-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 200px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary);
+        }
+
+        .portfolio-info {
+            padding: 20px;
+            background-color: white;
+        }
+
+        .portfolio-info h3 {
+            margin-bottom: 10px;
+        }
+
+        /* Launch Button */
+        .launch-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(255, 101, 132, 0.3);
+        }
+
+        .launch-btn:hover {
+            background-color: #e04f70;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 101, 132, 0.4);
+        }
+
+        /* Contact Section */
+        .contact {
+            background-color: white;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .contact-form {
+            background-color: var(--light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes typewriter {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                border-color: transparent;
+            }
+            50% {
+                border-color: var(--primary);
+            }
+        }
+
+        /* Dynamic Text */
+        .dynamic-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid var(--primary);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: 
+                typewriter 3.5s steps(40, end),
+                blink 0.75s step-end infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .dynamic-text {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .back-to-predictor {
+                top: 70px;
+                padding: 8px 15px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            section {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .dynamic-text {
+                font-size: 1.6rem;
+            }
+            
+            .team-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .member-photo {
+                height: 200px;
+            }
+            
+            .photo-placeholder {
+                width: 140px;
+                height: 140px;
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Apex Solution</a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#team">Our Team</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Welcome to <span style="color: var(--primary);">Apex Solution</span></h1>
+                <div class="dynamic-text" id="dynamic-text"></div>
+                <p>We create beautiful, functional, and user-friendly websites that help businesses grow and succeed in the digital world.</p>
+                <a href="#team" class="btn">Meet Our Team</a>
+            </div>
+        </div>
+        <div class="hero-bg"></div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">About Us</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>We are a passionate team of web designers and developers with over 5 years of experience creating digital experiences that blend aesthetics with functionality. Our journey began with a curiosity for how things work on the web, and it has evolved into a career dedicated to crafting beautiful, intuitive interfaces.</p>
+                    <p>We believe that great design is not just about how something looks, but how it works and feels. Every project is an opportunity to solve problems, tell stories, and create meaningful connections between brands and their audiences.</p>
+                    <p>When we're not designing, you can find us exploring new design trends, experimenting with code, or enjoying a good cup of coffee while sketching out our next idea.</p>
+                    <a href="#contact" class="btn">Get In Touch</a>
+                </div>
+                <div class="about-image">
+                    <img src="apexsol.png" alt="Our team working together" class="profile-image">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <style>
+    .about {
+        padding: 80px 0;
+        background-color: #f9f9f9;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+        font-size: 2.5rem;
+        color: #333;
+    }
+    
+    .about-content {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+    }
+    
+    .about-text {
+        flex: 1;
+    }
+    
+    .about-text p {
+        margin-bottom: 20px;
+        line-height: 1.6;
+        color: #555;
+    }
+    
+    .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: #4a6cf7;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: background-color 0.3s;
+    }
+    
+    .btn:hover {
+        background-color: #3a5ce5;
+    }
+    
+    .about-image {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .profile-image {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .about-content {
+            flex-direction: column;
+        }
+        
+        .about-image {
+            order: -1;
+            margin-bottom: 30px;
+        }
+    }
+    </style>
+     
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <h2 class="section-title">Our Skills</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>Design</h3>
+                    <ul class="skill-list">
+                        <li>
+                            <span>UI/UX Design</span>
+                            <div class="skill-bar">
+                                <div class="skill-level" data-level="95"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Wireframing</span>
+                            <div class="skill-bar">
+                                <div class="skill-level" data-level="90"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Prototyping</span>
+                            <div class="skill-bar">
+                                <div class="skill-level" data-level="88"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Brand Identity</span>
+                            <div class="skill-bar">
+                                <div class="skill-level" data-level="85"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Development</h3>
+                    <ul class="skill-list">
+                        <li>
+                            <span>HTML/CSS</span>
+                            <div class="skill-bar">
+                                <div class="skill-level" data-level="95"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span>JavaScript</span>
+                            <div class="skill-bar">
+                                <div class="skill-level" data-level="85"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span>React</span>
+                            <div class="skill-bar">
+                                <div class="skill-level" data-level="80"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Responsive Design</span>
+                            <div class="skill-bar">
+                                <div class="skill-level" data-level="92"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Tools</h3>
+                    <ul class="skill-list">
+                        <li>
+                            <span>Figma</span>
+                            <div class="skill-bar">
+                                <div class="skill-level" data-level="90"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Adobe Creative Suite</span>
+                            <div class="skill-bar">
+                                <div class="skill-level" data-level="85"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Git</span>
+                            <div class="skill-bar">
+                                <div class="skill-level" data-level="80"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Webflow</span>
+                            <div class="skill-bar">
+                                <div class="skill-level" data-level="75"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+<section class="team" id="team">
+    <div class="container">
+        <h2 class="section-title">Our Team</h2>
+        <div class="team-container">
+            <div class="team-member">
+                <div class="member-photo">
+                    <div class="photo-placeholder">
+                        <img src="dheeraj.png" alt="Dheeraj patel">
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3>Dheeraj patel</h3>
+                    <p class="member-role">UI/UX Designer</p>
+                    <p>Dheeraj specializes in creating intuitive user interfaces and seamless user experiences. With a background in psychology.</p>
+                    <div class="member-skills">
+                        <span class="skill-tag">Figma</span>
+                        <span class="skill-tag">Adobe XD</span>
+                        <span class="skill-tag">User Research</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-member">
+                <div class="member-photo">
+                    <div class="photo-placeholder">
+                        <img src="aman.png" alt="Aman gupta">
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3>Aman gupta</h3>
+                    <p class="member-role">Frontend Developer</p>
+                    <p>Aman transforms designs into functional, responsive websites using HTML, CSS, and JavaScript.</p>
+                    <div class="member-skills">
+                        <span class="skill-tag">HTML/CSS</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">React</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-member">
+                <div class="member-photo">
+                    <div class="photo-placeholder">
+                        <img src="chanchal.png" alt="Chanchal ojha">
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3>Chanchal ojha</h3>
+                    <p class="member-role">Java Backend Developer</p>
+                    <p>Chanchal builds robust server-side applications and APIs using Java.</p>
+                    <div class="member-skills">
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Spring Boot</span>
+                        <span class="skill-tag">Database Design</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-member">
+                <div class="member-photo">
+                    <div class="photo-placeholder">
+                        <img src="abhisek.png" alt="Abhishek modanwal">
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3>Abhishek modanwal</h3>
+                    <p class="member-role">Full Stack Developer</p>
+                    <p>Abhishek bridges the gap between frontend and backend development.</p>
+                    <div class="member-skills">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">API Integration</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.team {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+    /* Force team members to stay in a single row */
+.team-container {
+    grid-template-columns: repeat(4, 1fr); /* Fixed 4 columns */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+    gap: 20px; /* Slightly reduce gap to fit more content */
+}
+
+/* Ensure team members don't wrap */
+.team-member {
+    min-width: 280px; /* Set minimum width for each member */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Adjust container to prevent overflow issues */
+.team .container {
+    overflow: visible;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .team-container {
+        grid-template-columns: repeat(4, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .team-container {
+        grid-template-columns: repeat(4, minmax(220px, 1fr));
+    }
+}
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 60px;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.team-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.team-member {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+}
+
+.member-photo {
+    height: 250px;
+    overflow: hidden;
+}
+
+.photo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e9ecef;
+}
+
+.photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.member-info {
+    padding: 25px;
+}
+
+.member-info h3 {
+    margin: 0 0 5px;
+    font-size: 1.4rem;
+    color: #333;
+    text-transform: capitalize;
+}
+
+.member-role {
+    color: #6c757d;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.member-info p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.member-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-tag {
+    background-color: #e9ecef;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #495057;
+}
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Section</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 80px 0;
+            background-color: #fff;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #2c3e50;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: #3498db;
+        }
+
+        /* Filter Buttons */
+        .portfolio-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            margin: 5px 10px;
+            background: transparent;
+            border: 2px solid #3498db;
+            color: #3498db;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #3498db;
+            color: white;
+        }
+
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .portfolio-item {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .portfolio-item.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            position: absolute;
+            visibility: hidden;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Portfolio Image */
+        .portfolio-img {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+
+        .portfolio-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .portfolio-item:hover .portfolio-img img {
+            transform: scale(1.05);
+        }
+
+        /* Portfolio Info */
+        .portfolio-info {
+            padding: 25px;
+        }
+
+        .portfolio-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .portfolio-info p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .launch-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .launch-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .portfolio-filter {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-btn {
+                width: 80%;
+                margin: 5px 0;
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <h2 class="section-title">Our Portfolio</h2>
+            <div class="portfolio-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="web">Web Design</button>
+                <button class="filter-btn" data-filter="app">App Design</button>
+                <button class="filter-btn" data-filter="brand">Branding</button>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item visible" data-category="web">
+                    <div class="portfolio-img">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Student Performance Predictor">    
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Student Performance Predictor</h3>
+                        <p>A modern predictor platform with intuitive user interface and seamless data analysis experience.</p>
+                        <a href="idex.html" class="launch-btn">Launch</a>
+                    </div>
+                </div>
+                <div class="portfolio-item visible" data-category="app">
+                    <div class="portfolio-img">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Fitness App">
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Fitness App</h3>
+                        <p>Mobile application design for tracking workouts, nutrition, and fitness goals.</p>
+                    </div>
+                </div>
+                <div class="portfolio-item visible" data-category="brand">
+                    <div class="portfolio-img">
+                        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Coffee Shop Branding">
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Coffee Shop Branding</h3>
+                        <p>Complete brand identity for a local coffee shop including logo, packaging, and merchandise.</p>
+                    </div>
+                </div>
+                <div class="portfolio-item visible" data-category="web">
+                    <div class="portfolio-img">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Corporate Website">
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Corporate Website</h3>
+                        <p>Professional website for a financial consulting firm with clear information architecture.</p>
+                    </div>
+                </div>
+                <div class="portfolio-item visible" data-category="app">
+                    <div class="portfolio-img">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Finance Dashboard">
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Finance Dashboard</h3>
+                        <p>Data visualization dashboard for personal finance management with clean, readable interfaces.</p>
+                    </div>
+                </div>
+                <div class="portfolio-item visible" data-category="brand">
+                    <div class="portfolio-img">
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Design Studio">
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Design Studio Identity</h3>
+                        <p>Brand development for a creative design studio with unique visual language.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Portfolio Filtering Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const filterValue = this.getAttribute('data-filter');
+                    
+                    portfolioItems.forEach(item => {
+                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                            item.classList.remove('hidden');
+                            setTimeout(() => {
+                                item.style.visibility = 'visible';
+                            }, 50);
+                        } else {
+                            item.classList.add('hidden');
+                            setTimeout(() => {
+                                item.style.visibility = 'hidden';
+                            }, 500);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+<!-- Contact Section -->
+<section class="contact" id="contact">
+    <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div>
+                        <h3>Email</h3>
+                        <p>hello@apexsolution.design</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <div>
+                        <h3>Phone</h3>
+                        <p>+91 7392216521</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <h3>Location</h3>
+                        <p>gida, Buddha institute, gorakhpur</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🕒</div>
+                    <div>
+                        <h3>Availability</h3>
+                        <p>Available for new projects</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">Apex Solution</div>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Apex Solution. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dynamic Text Animation
+        const dynamicText = document.getElementById('dynamic-text');
+        const texts = [
+            "Web Designers",
+            "UI/UX Specialists",
+            "Frontend Developers",
+            "Creative Problem Solvers"
+        ];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 100;
+
+        function typeText() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                // Deleting text
+                dynamicText.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 50;
+            } else {
+                // Typing text
+                dynamicText.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 100;
+            }
+            
+            // Check if text is complete
+            if (!isDeleting && charIndex === currentText.length) {
+                // Pause at the end
+                typingSpeed = 1500;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                // Move to next text
+                isDeleting = false;
+                textIndex++;
+                if (textIndex === texts.length) {
+                    textIndex = 0;
+                }
+                typingSpeed = 500;
+            }
+            
+            setTimeout(typeText, typingSpeed);
+        }
+
+        // Start typing animation
+        setTimeout(typeText, 1000);
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Portfolio filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                const filterValue = button.getAttribute('data-filter');
+                
+                portfolioItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.classList.add('visible');
+                    } else {
+                        item.classList.remove('visible');
+                    }
+                });
+            });
+        });
+
+        // Animate skill bars on scroll
+        function animateSkillBars() {
+            const skillLevels = document.querySelectorAll('.skill-level');
+            
+            skillLevels.forEach(level => {
+                const skillValue = level.getAttribute('data-level');
+                level.style.width = '0%';
+                
+                // Use Intersection Observer to trigger animation when element is in viewport
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            setTimeout(() => {
+                                level.style.width = skillValue + '%';
+                            }, 200);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                
+                observer.observe(level);
+            });
+        }
+
+        // Initialize skill bar animation
+        animateSkillBars();
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Animate team members on scroll
+        function animateTeamMembers() {
+            const teamMembers = document.querySelectorAll('.team-member');
+            
+            teamMembers.forEach((member, index) => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Stagger the animation for each member
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, index * 200);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                
+                observer.observe(member);
+            });
+        }
+
+        // Initialize team member animation
+        animateTeamMembers();
+    </script>
+</body>
+</html>
